@@ -20,9 +20,6 @@ func TestServiceWithTestify(t *testing.T) {
 	// Get the current time
 	valueNow := time.Now().Format("2006-01-02 15:04:05")
 
-	//dump the value to the console
-	t.Log(valueNow)
-
 	// Create JSON payload
 	data := map[string]string{
 		"key":   key,
