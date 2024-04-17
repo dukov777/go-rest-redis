@@ -5,6 +5,8 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
+	"os/exec"
+	"strings"
 	"testing"
 	"time"
 
@@ -14,10 +16,17 @@ import (
 func TestServiceWithTestify(t *testing.T) {
 	assert := assert.New(t)
 
+	key := "test-key"
+	// Get the current time
+	valueNow := time.Now().Format("2006-01-02 15:04:05")
+
+	//dump the value to the console
+	t.Log(valueNow)
+
 	// Create JSON payload
 	data := map[string]string{
-		"key":   "12356",
-		"value": time.Now().Format("2006-01-02 15:04:05"),
+		"key":   key,
+		"value": valueNow,
 	}
 	jsonData, err := json.Marshal(data)
 	assert.NoError(err, "Encoding JSON should not error")
@@ -35,4 +44,20 @@ func TestServiceWithTestify(t *testing.T) {
 	assert.NoError(err, "Reading response body should not error")
 	expectedBody := "All key-value pairs received and stored in Redis.\n"
 	assert.Equal(expectedBody, string(responseBody), "Response body should match expected content")
+
+	redisValue, err := getRedisValue(key)
+	assert.NoError(err, "Getting Redis value should not error")
+	assert.Equal(valueNow, redisValue)
+
+}
+
+// getRedisValue uses redis-cli to get a value for a given key.
+func getRedisValue(key string) (string, error) {
+	cmd := exec.Command("redis-cli", "GET", key)
+	output, err := cmd.CombinedOutput()
+	if err != nil {
+		return "", err
+	}
+	// Trim space to clean up the output
+	return strings.TrimSpace(string(output)), nil
 }
