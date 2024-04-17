@@ -14,7 +14,7 @@ func main() {
 	log.Println("Starting server...")
 	redisClient := redis.NewClient("localhost:6379")
 
-	log.Default().Printf("Connected to redis at: %s", redisClient.Options().Addr)
+	log.Default().Printf("Connected to redis")
 
 	r := mux.NewRouter()
 	// Use both middleware
