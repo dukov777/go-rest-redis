@@ -1,3 +1,5 @@
+[![CI Pipeline](https://github.com/dukov777/go-rest-redis/actions/workflows/main.yml/badge.svg?branch=master)](https://github.com/dukov777/go-rest-redis/actions/workflows/main.yml)
+
 This is an experimental project.
 -----------------------------
 
