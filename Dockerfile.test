@@ -21,16 +21,8 @@ RUN apt-get update && apt-get install -y \
     redis-tools \
     && rm -rf /var/lib/apt/lists/*
 
-# # Start a new stage from scratch
-# FROM debian:buster-slim
-
-# WORKDIR /app
-
-# # Copy the Pre-built binary file from the previous stage
-# COPY --from=builder /app/. .
-
 # Expose port 8080 to the outside world
-EXPOSE 8080
+EXPOSE 6380:6379
 
 # Command to run the executable
-CMD ["./my-go-service"]
+CMD ["bash"]
