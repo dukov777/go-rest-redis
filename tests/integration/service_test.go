@@ -4,7 +4,9 @@ import (
 	"bytes"
 	"encoding/json"
 	"io/ioutil"
+	"log"
 	"net/http"
+	"os"
 	"os/exec"
 	"strings"
 	"testing"
@@ -50,7 +52,11 @@ func TestServiceWithTestify(t *testing.T) {
 
 // getRedisValue uses redis-cli to get a value for a given key.
 func getRedisValue(key string) (string, error) {
-	cmd := exec.Command("redis-cli", "GET", key)
+
+	log.Print("REDIS_HOST: ", os.Getenv("REDIS_HOST"))
+	log.Print("REDIS_PORT: ", os.Getenv("REDIS_PORT"))
+
+	cmd := exec.Command("redis-cli", "-h", os.Getenv("REDIS_HOST"), "-p", os.Getenv("REDIS_PORT"), "GET", key)
 	output, err := cmd.CombinedOutput()
 	if err != nil {
 		return "", err

@@ -12,8 +12,11 @@ import (
 
 func main() {
 	log.Println("Starting server...")
-	redisClient := redis.NewClient("localhost:6379")
+	redisClient := redis.NewClient()
 
+	if redisClient == nil {
+		log.Fatalf("Error connecting to Redis")
+	}
 	log.Default().Printf("Connected to redis")
 
 	r := mux.NewRouter()
